@@ -1,8 +1,8 @@
 import React from 'react';
 
 const Footer = () => (
-    <div>
-        Created by Marius Tverijonas
+    <div className="footer">
+        Created by Marius Tverijonas, 2018
     </div>
 );
 

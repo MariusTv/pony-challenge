@@ -32,7 +32,7 @@ class App extends Component {
 
     handleCreateMaze  =  async () => {
         let maze = null;
-        await axios.get('http://localhost:5000/api/create-maze')
+        await axios.get('/api/create-maze')
             .then((response) => {
                 maze = (response.data);
             })
@@ -48,7 +48,7 @@ class App extends Component {
 
     };
     handleSolveMaze() {
-        axios.get('http://localhost:5000/api/solve-maze')
+        axios.get('/api/solve-maze')
             .then((response) => {
 
             })
@@ -63,6 +63,7 @@ class App extends Component {
               <Header />
               <Maze maze={this.state.maze} status={this.state.status}/>
               <ActionBar
+                  isCreated={this.state.maze}
                   handleCreateMaze={this.handleCreateMaze}
                   handleSolveMaze={this.handleSolveMaze}
               />

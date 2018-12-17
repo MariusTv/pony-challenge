@@ -44,3 +44,34 @@
   width: 15%;
   height: auto;
 }
+
+.btn {
+  border: 2px solid;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: bold;
+  margin-right: 15px;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: default;
+  opacity: .3;
+}
+
+.status-line {
+  margin: 15px;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 95%;
+  text-align: right;
+  padding-bottom: 20px;
+}

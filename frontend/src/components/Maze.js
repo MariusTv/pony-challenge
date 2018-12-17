@@ -5,7 +5,7 @@ const Maze = (props) => (
         <div className="maze">
             <pre>{props.maze}</pre>
         </div>
-        <div>{props.status}</div>
+        <div className="status-line">{props.status}</div>
     </div>
 );
 
