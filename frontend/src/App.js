@@ -39,7 +39,7 @@ class App extends Component {
 
     handleCreateMaze  =  async () => {
         let maze = null;
-        await axios.get('http://localhost:5000/api/create-maze')
+        await axios.get('/api/create-maze')
             .then((response) => {
                 maze = (response.data);
             })
@@ -58,7 +58,7 @@ class App extends Component {
 
     };
     handleSolveMaze() {
-        axios.get('http://localhost:5000/api/solve-maze').catch((error) => {
+        axios.get('/api/solve-maze').catch((error) => {
             // handle error
             console.log(error);
         });
