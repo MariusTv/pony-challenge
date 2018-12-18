@@ -1,4 +1,14 @@
 class Maze {
+    /**
+     * Constructor
+     * @param id
+     * @param pony
+     * @param endPoint
+     * @param domokun
+     * @param mazeData
+     * @param width
+     * @param height
+     */
     constructor(id, pony, endPoint, domokun, mazeData, width, height)
     {
         this.id = id;
@@ -11,9 +21,12 @@ class Maze {
         this.path = [this.pony];
         this.wrongPaths = [];
     }
+
+    /**
+     * Find escape route from maze
+     */
     solve()
     {
-        console.log(`Pony ${this.pony}`);
         while (this.pony !== this.endPoint && this.pony !== this.domokun) {
             const moves = this.getPossibleMoves();
             let minDistance = null;
@@ -25,7 +38,7 @@ class Maze {
                 if ((distance < minDistance || !minDistance)
                     && move !== lastPosition
                     && this.wrongPaths.indexOf(move) === -1
-                    && move !== this.domokun
+                    // && move !== this.domokun
                 ) {
                     minDistance = distance;
                     nextMove = move;
@@ -33,21 +46,19 @@ class Maze {
             });
 
             if(nextMove === null) {
-                console.log('DEAD END :(');
                 this.revert();
             } else {
-                console.log(`${this.pony} -> ${nextMove}`);
                 this.pony = nextMove;
                 this.path.push(nextMove);
             }
         }
 
-        console.log(`Pony ${this.pony}; End point ${this.endPoint}; Domokun ${this.domokun}`);
-        const convertedPath = this.convertPathToDirections();
-        console.log(convertedPath);
-        return convertedPath;
+        return this.convertPathToDirections();
     }
 
+    /**
+     * Dead end. Revert back to position with alternate routes.
+     */
     revert()
     {
         //return 1 step back
@@ -60,7 +71,6 @@ class Maze {
             if (diff.length !== 0) {
                 this.pony = previousPosition;
                 this.wrongPaths.push(wrongWay);
-                console.log(`Reverting pony to ${previousPosition}`);
                 break;
             } else {
                 wrongWay = previousPosition;
@@ -69,7 +79,11 @@ class Maze {
         }
     }
 
-
+    /**
+     * Get possible directions to move
+     * @param x
+     * @returns {Array}
+     */
     getPossibleMoves(x = this.pony) {
         let moves = [];
 
@@ -99,14 +113,23 @@ class Maze {
         return moves;
     }
 
+    /**
+     * Calculate distance between two points
+     * @param x
+     * @param y
+     * @returns {number}
+     */
     calculateDistance(x, y) {
         return Math.abs((x % this.width) - (y % this.width)) + Math.abs(Math.floor(x / this.width) - Math.floor(y / this.width));
     }
 
+    /**
+     * Convert int positions two directions ('North', 'West', etc.)
+     * @returns {Array}
+     */
     convertPathToDirections()
     {
         let directions = [];
-
         let previousLocation = this.path.shift();
 
         for (let i = 0; i < this.path.length; i++) {

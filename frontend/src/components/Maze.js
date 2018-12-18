@@ -1,11 +1,11 @@
 import React from 'react';
 
 const Maze = (props) => (
-    <div>
+    <div className="maze-container">
         <div className="maze">
             <pre>{props.maze}</pre>
         </div>
-        <div className="status-line">{props.status}</div>
+        <p>Click "Create" button to start</p>
     </div>
 );
 

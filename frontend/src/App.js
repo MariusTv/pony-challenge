@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Pusher from 'pusher-js';
-import './App.css';
 import Header from './components/Header';
 import Maze from './components/Maze';
 import ActionBar from './components/ActionBar';
+import StatusBar from './components/StatusBar';
 import Footer from './components/Footer';
+import './styles/App.css';
 
 class App extends Component {
     constructor(props){
         super(props);
         this.state = {
-            status: 'Click Create button to start',
+            state: '',
+            actions: [],
+            stepCount: 0,
             maze: null,
         };
     }
@@ -25,14 +28,18 @@ class App extends Component {
             this.setState({ maze: data.maze });
         });
         channel.bind('statusChange', data => {
-            console.log('status', data);
-            this.setState({ status: data.status});
+            const stepNumber = this.state.stepCount + 1;
+            this.setState({
+                stepCount: stepNumber,
+                actions: [`Step ${stepNumber}: ${data.result}`, ...this.state.actions],
+                state: data.state
+            });
         });
     }
 
     handleCreateMaze  =  async () => {
         let maze = null;
-        await axios.get('/api/create-maze')
+        await axios.get('http://localhost:5000/api/create-maze')
             .then((response) => {
                 maze = (response.data);
             })
@@ -42,31 +49,31 @@ class App extends Component {
             });
         if (maze) {
             this.setState({
-                maze
+                maze,
+                state: "Maze created",
+                actions: [],
+                stepCount: 0
             });
         }
 
     };
     handleSolveMaze() {
-        axios.get('/api/solve-maze')
-            .then((response) => {
-
-            })
-            .catch((error) => {
-                // handle error
-                console.log(error);
-            });
+        axios.get('http://localhost:5000/api/solve-maze').catch((error) => {
+            // handle error
+            console.log(error);
+        });
     }
     render() {
         return (
           <div className="App">
               <Header />
-              <Maze maze={this.state.maze} status={this.state.status}/>
+              <Maze maze={this.state.maze}/>
               <ActionBar
-                  isCreated={this.state.maze}
+                  state={this.state.state}
                   handleCreateMaze={this.handleCreateMaze}
                   handleSolveMaze={this.handleSolveMaze}
               />
+              <StatusBar status={this.state.actions}/>
               <Footer/>
           </div>
         );

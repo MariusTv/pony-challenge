@@ -11,9 +11,9 @@ class ActionBar extends React.Component {
     };
     render() {
         return (
-            <div>
-                <button  className="btn" disabled={this.props.isCreated} onClick={this.handleCreateMaze}>Create</button>
-                <button className="btn" disabled={!this.props.isCreated} onClick={this.handleSolveMaze}>Solve</button>
+            <div className="action-bar">
+                <button  className="btn" disabled={this.props.state !== ""} onClick={this.handleCreateMaze}>Create</button>
+                <button className="btn" disabled={this.props.state !== "Maze created"} onClick={this.handleSolveMaze}>Solve</button>
             </div>
         );
     }
